@@ -1,4 +1,6 @@
-Create and configure replicaset named replicaset-1, container image nginx, label nginx , replicas 2
+### Create and configure **ReplicaSet** named replicaset-1, container image nginx, label -> tier: frontend and number of replicas is 2.
+
+#### Create the *yaml* defination file as *replicaset-1* 
 
 ```yaml
 apiVersion: apps/v1
@@ -20,11 +22,14 @@ spec:
         image: nginx
 ```
 
+#### Create the replicaSet from the yaml defineition file
+
 ```bash
 controlplane ~ ➜  kubectl apply -f /root/replicaset-definition-1.yaml 
 replicaset.apps/replicaset-1 created
 ```
 
+#### Show the ReplicaSets in the default cluster
 ```bash
 controlplane ~ ➜  kubectl get replicasets
 NAME              DESIRED   CURRENT   READY   AGE
@@ -33,6 +38,8 @@ replicaset-1      2         2         2       82s
 
 controlplane ~ ➜  
 ```
+
+#### Get the properties of the ReplicaSet *replicaset-1*
 
 ```bash
 controlplane ~ ➜  kubectl describe replicasets replicaset-1
@@ -61,6 +68,8 @@ Events:
 
 controlplane ~ ➜  
 ```
+
+#### Delete the ReplicaSet
 
 ```bash
 

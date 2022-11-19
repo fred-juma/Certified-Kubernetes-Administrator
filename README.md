@@ -2,7 +2,7 @@
 
 This repo documents the labs and exercises I worked on while studying for the CKA certification
 
-The courses that I took were [Linux Foundation]() and [Udemy] in conjuction with kodekloud()
+The courses that I took were [Linux Foundation]() and [Udemy]() in conjuction with kodekloud
 
 What Is Kubernetes? - An open-source software for automating deployment, scaling, and management of containerized applications
 
