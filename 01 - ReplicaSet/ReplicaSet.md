@@ -69,6 +69,24 @@ Events:
 controlplane ~ ➜  
 ```
 
+#### Update the replica set to use another image, busybox image. Use the *kubectl* utility with *edit* option to edit the ReplicaSet definition file and update the image
+
+```bash
+controlplane ~ ➜  kubectl edit replicaset replicaset-1
+replicaset.apps/replicaset-1 edited
+```
+
+#### Once you update the image, delete the old pods one by one so that new pods are created with the updated image
+
+#### Scale the ReplicaSet to 5 PODs. Use kubectl scale command and specify the numba od replicas, type (ReplicaSet) and the name (new-replica-set)
+
+```bash
+controlplane ~ ➜  kubectl scale --replicas=5 replicaset replicaset-1
+replicaset.apps/replicaset-1 scaled
+
+controlplane ~ ➜ 
+```
+
 #### Delete the ReplicaSet
 
 ```bash
@@ -78,3 +96,8 @@ replicaset.apps "replicaset-1" deleted
 
 controlplane ~ ➜  
 ```
+
+
+
+
+***The End***
