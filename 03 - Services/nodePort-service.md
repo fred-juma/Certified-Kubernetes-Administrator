@@ -62,6 +62,8 @@ webapp-service   NodePort    10.43.21.3   <none>        8080:30080/TCP   22s
 controlplane ~ ➜  
 ```
 
+#### Note that the kubernetes service is created by default in the default namespace when kubernetes cluster is setup
+
 ***The End***
 
 
