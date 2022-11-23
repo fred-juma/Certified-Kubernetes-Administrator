@@ -75,8 +75,49 @@ kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml
 
 #### This will not use the pods labels as selectors
 
-Note:
 
+Create a new namespace called dev-ns
+
+```bash
+
+controlplane ~ ➜  kubectl create namespace dev-ns
+namespace/dev-ns created
+
+controlplane ~ ➜  kubectl get namespaces
+NAME              STATUS   AGE
+default           Active   18m
+kube-system       Active   18m
+kube-public       Active   18m
+kube-node-lease   Active   18m
+dev-ns            Active   69s
+```
+
+#### List pod(s) that with the following labels: bu=finance, env=prod, tier=frontend
+
+```bash
+controlplane ~ ➜  kubectl get pods --selector bu=finance,env=prod,tier=frontend
+NAME          READY   STATUS    RESTARTS   AGE
+app-1-zzxdf   1/1     Running   0          14m
+
+controlplane ~ ➜  
+```
+
+#### List all objects with label bu=finance
+
+```bash
+controlplane ~ ➜  kubectl get all --selector bu=finance
+NAME              READY   STATUS    RESTARTS   AGE
+pod/app-1-ksdmv   1/1     Running   0          6m24s
+pod/db-2-8wvp2    1/1     Running   0          6m24s
+pod/app-1-4zvqw   1/1     Running   0          6m24s
+pod/auth          1/1     Running   0          6m24s
+pod/app-1-9dsb2   1/1     Running   0          6m24s
+pod/app-1-zzxdf   1/1     Running   0          6m23s
+
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/app-1   ClusterIP   10.43.238.199   <none>        3306/TCP   6m23s
+Note:
+```
 --dry-run - By default as soon as the command is run, the resource will be created
 
 --dry-run=client - Does not  create the resource, instead, tell you whether the resource can be created and if your command is right
