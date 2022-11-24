@@ -118,6 +118,11 @@ NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 service/app-1   ClusterIP   10.43.238.199   <none>        3306/TCP   6m23s
 Note:
 ```
+
+//To list the count only: kubectl get all --selector bu=finance --no-headers | wc -l
+
+
+
 --dry-run - By default as soon as the command is run, the resource will be created
 
 --dry-run=client - Does not  create the resource, instead, tell you whether the resource can be created and if your command is right
