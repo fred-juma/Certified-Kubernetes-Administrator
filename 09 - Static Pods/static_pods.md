@@ -184,7 +184,7 @@ controlplane /etc/kubernetes/manifests ➜
 
 #### Find below the yam definition files for the various static pods in the master node
 
-+ [etcd](etcd)
++ [etcd](etcd.yaml)
 + [kube-apiserver](kube-apiserver.yaml)
 + [kube-controller-manager](kube-controller-manager.yaml)
 + [kube-scheduler](kube-scheduler.yaml)
