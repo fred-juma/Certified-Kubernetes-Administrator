@@ -225,6 +225,8 @@ nginx   1/1     Running   0          10s
 #### Setting high priority pods. Such pods are scheduled at the head of the queue
 Set the priority class
 
+
+```{r echo=FALSE, eval=FALSE}
 high-priority.yaml
 
 apiVersion: scheduling.k8s.io/v1
@@ -234,9 +236,11 @@ metadata:
 value: 1000000
 globalDefault: false
 description: "This priority class should be used for XYZ service pods only" 
-
+```
 Then create pod definition file
 
+
+```{r echo=FALSE, eval=FALSE}
 pod-definition.yaml
 
 apiVersion: v1
@@ -252,7 +256,7 @@ spec:
       requests:
         memory: "1Gi"
         cpu: 10
-   
+```   
 #### Pod scheduling phases
 
 + **Scheduling queue**- based on priority defined in the specification, node is place on the queue. Plugin used is *PrioritySort*
