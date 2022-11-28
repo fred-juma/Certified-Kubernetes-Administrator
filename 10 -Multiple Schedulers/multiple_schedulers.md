@@ -271,7 +271,7 @@ There is an extension point at each of the stages above where an extension point
 
 Scheduler Framework              |  
 :-------------------------:|
-![Scheduler Framework ](images/schedule-framework.JPG)
+![Scheduler Framework ](../images/schedule-framework.JPG)
 
 References:
 - https://github.com/kubernetes/community/blob/master/contributors/devel/sig-scheduling/scheduling_code_hierarchy_overview.md
