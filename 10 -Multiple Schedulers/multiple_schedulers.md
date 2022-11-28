@@ -222,4 +222,61 @@ NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          10s
 ```
 
+#### Setting high priority pods. Such pods are scheduled at the head of the queue
+Set the priority class
+
+high-priority.yaml
+
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000
+globalDefault: false
+description: "This priority class should be used for XYZ service pods only" 
+
+Then create pod definition file
+
+pod-definition.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  priorityClassName: high-priority
+  containers:
+  - image: nginx
+    name: nginx
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: 10
+   
+#### Pod scheduling phases
+
++ **Scheduling queue**- based on priority defined in the specification, node is place on the queue. Plugin used is *PrioritySort*
+
++ **Filtering** - Filtering nodes that cannot run the pod e.g. insufficient memory/CPU. Plugins used are *NodeResourcesFit*, *NodeName*, *NodeUnschedulable*, *TaintToleration*, *NodePorts*, *NodeAffinity*
+
++ **Scoring** - Nodes are scored with different weights based on free space. Node with high score get picked up.  Plugins used are *NodeResourcesFit*, *ImageLocality*, *TaintToleration*, *NodeAffinity*
+
++ **Binding** - The pod get bound to the node with the highest score. Plugin used is *DefaultBinder*
+
+#### Extension Points 
+
+it is possible to write custom plugin and decide on their placement by use of extension points. 
+
+There is an extension point at each of the stages above where an extension point can be plugged into
+
+Scheduler Framework              |  
+:-------------------------:|
+![Scheduler Framework ](images/schedule-framework.JPG)
+
+References:
+- https://github.com/kubernetes/community/blob/master/contributors/devel/sig-scheduling/scheduling_code_hierarchy_overview.md
+- https://kubernetes.io/blog/2017/03/advanced-scheduling-in-kubernetes/
+- https://jvns.ca/blog/2017/07/27/how-does-the-kubernetes-scheduler-work/
+https://stackoverflow.com/questions/28857993/how-does-kubernetes-scheduler-work
+
 ***The End***
