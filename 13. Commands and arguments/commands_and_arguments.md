@@ -1,4 +1,4 @@
-Configure Applications
+#### Configure Applications
 
 Configuring applications comprises of understanding the following concepts:
 
@@ -10,6 +10,11 @@ Configuring applications comprises of understanding the following concepts:
 
 *command* field in pod specification -> overrides to *ENTRYPOINT* field in docker file
 *args* field in pod specification -> overrides to *CMD* field in docker file
+
+Example Command (ENTRYPOINT) and Arguments (CMD) in a Dockerfile
+
+
+```bash
 
 FROM python:3.6-alpine
 
@@ -25,7 +30,11 @@ ENTRYPOINT ["python", "app.py"]
 
 CMD ["--color", "red"]
 
+````
+
 Create a pod with the ubuntu image to run a container to sleep for 5000 seconds. 
+
+```yaml
 
 apiVersion: v1
 kind: Pod 
@@ -37,13 +46,20 @@ spec:
     image: ubuntu
     command: ["sleep"]
     args: ["5000"]
+```
 
+apply the pod specifications
+
+```bash
 controlplane ~ ➜  kubectl apply -f ubuntu-sleeper-2.yaml 
 pod/ubuntu-sleeper-2 created
 
 controlplane ~ ➜  
+```
 
 Update pod ubuntu-sleeper-3 to sleep for 2000 seconds
+
+```yaml
 
 apiVersion: v1
 kind: Pod 
@@ -55,15 +71,29 @@ spec:
     image: ubuntu
     command: ["sleep"]
     args: ["2000"]
+```
 
+replace the pod 
+
+```bash
 
 controlplane ~ ➜ kubectl replace --force -f ubuntu-sleeper-3.yaml 
 pod "ubuntu-sleeper-3" deleted
 pod/ubuntu-sleeper-3 replaced
+```
 
 Create a pod with the given specifications. By default it displays a blue background. Set the given command line arguments to change it to green.
 
+name: webapp-green 
+image: kodekloud/webapp-color 
+command: color 
+argument: green
+
+```bash
 controlplane ~ ➜  kubectl run webapp-green --image=kodekloud/webapp-color -- --color green
 pod/webapp-green created
 
 controlplane ~ ➜  
+```
+
+***The End***
