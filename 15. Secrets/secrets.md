@@ -170,7 +170,7 @@ We have already deployed the required pods and services. Check out the pods and 
 
 Secrets lab Architecture              |  
 :-------------------------:|
-![deployment](images/secrets-deployment.jpg)
+![deployment](https://github.com/fred-juma/Certified-Kubernetes-Administrator/blob/main/images/secrets-deployment.JPG)
 
 ```bash
 controlplane ~ ➜  kubectl get pods
