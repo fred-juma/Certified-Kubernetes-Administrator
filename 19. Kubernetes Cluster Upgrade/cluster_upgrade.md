@@ -479,7 +479,7 @@ Upgrade the kubeadm tool on the worker node
 
 
 ```bash
-controlplane ~ ➜  apt-mark unhold kubeadm && \
+root@node01 ➜  apt-mark unhold kubeadm && \
 > apt-get update && apt-get install -y kubeadm=1.26.0-00 && \
 > apt-mark hold kubeadm
 Canceled hold on kubeadm.
@@ -498,7 +498,7 @@ kubeadm is already the newest version (1.26.0-00).
 0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 kubeadm set on hold.
 
-controlplane ~ ➜  
+root@node01 ➜  
 ```
 
 Call "kubeadm upgrade". For worker nodes this upgrades the local kubelet configuration:
@@ -568,7 +568,7 @@ go
      CGroup: /system.slice/kubelet.service
 ```
 
-Uncordon the node - Bring the node back online by marking it schedulable
+Uncordon the node - Bring the node back online by marking it schedulable. All kubectl commands are done on the control plane node
 
 ```bash
 controlplane ~ ➜  kubectl uncordon node01
