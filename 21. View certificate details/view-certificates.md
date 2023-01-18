@@ -629,8 +629,8 @@ W0916 14:19:44.771920       1 clientconn.go:1331] [core] grpc: addrConn.createTr
 E0916 14:19:48.689303       1 run.go:74] "command failed" err="context deadline exceeded"
 ```
 
-
-
 This indicates an issue with the ETCD CA certificate used by the kube-apiserver. Correct it to use the file /etc/kubernetes/pki/etcd/ca.crt.
 
 Once the YAML file has been saved, wait for the kube-apiserver pod to be Ready. This can take a couple of minutes.
+
+***The End***
