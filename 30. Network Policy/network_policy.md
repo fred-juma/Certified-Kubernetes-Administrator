@@ -1,11 +1,15 @@
+#### Network Policy
+
 - By default, kubernetes allow all port traffic from and to all destinations "Allow All"
 - We use network policy objects to filter traffic
 
 Below is a network policy that blocks all connections to db pod, except traffic from api-pod destined to db pod on port 3306. This policy applies to the default namespace.
 
+<div style="width:60px ; height:60px">
 Ingress Network Policy in default namespace             |  
 :-------------------------:|
 ![Network Policy in default namespace  ](https://github.com/fred-juma/Certified-Kubernetes-Administrator/blob/main/images/network-policy-ingress-default-namespace.JPG)
+<div>
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -359,7 +363,6 @@ spec:
     ports:
     - protocol: TCP
       port: 3306
-
 		
   - ports:
     - port: 53
