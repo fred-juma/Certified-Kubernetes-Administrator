@@ -8,7 +8,7 @@ Below is a network policy that blocks all connections to db pod, except traffic 
 
 Ingress Network Policy in default namespace             |  
 :-------------------------:|
-![Network Policy in default namespace  ](https://github.com/fred-juma/Certified-Kubernetes-Administrator/blob/main/images/network-policy-ingress-default-namespace.JPG widht="50" height="50")
+![Network Policy in default namespace  ](https://github.com/fred-juma/Certified-Kubernetes-Administrator/blob/main/images/network-policy-ingress-default-namespace.JPG)
 
 
 ```yaml
