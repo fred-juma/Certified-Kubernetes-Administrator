@@ -162,7 +162,12 @@ Events:
 controlplane ~ ➜  
 ```
 
-How is the Corefile passed into the CoreDNS POD? **it is configured as a ConfigMap object** named **coredns**
+How is the Corefile passed into the CoreDNS POD? **it is configured as a ConfigMap object** named **coredns** 
+
+**Volumes:
+   config-volume:
+    Type:               ConfigMap (a volume populated by a ConfigMap)
+    Name:               coredns**
 
 ```bash
 controlplane ~ ➜  kubectl get configmap -n kube-system
@@ -263,7 +268,7 @@ We just deployed a web server - *webapp* - that accesses a database *mysql* - se
 
 They could be in different namespaces. First locate the applications. The web server interface can be seen by clicking the tab Web Server at the top of your terminal.
 
-First check the webapp and mysql pods and which namespace they are deployed in **Both are in payroll namespace**
+First check the webapp and mysql pods and which namespace they are deployed in **mysql in payroll namespace, while webapp in default namespace**
 
 ```bash
 controlplane ~ ➜  kubectl get pod -A
