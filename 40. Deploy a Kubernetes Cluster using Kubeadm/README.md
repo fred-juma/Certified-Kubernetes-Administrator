@@ -224,3 +224,14 @@ daemonset.apps/kube-flannel-ds created
 
 controlplane ~ ➜  
 ```
+
+Get nodes to see all joined nodes
+
+```bash
+controlplane ~ ➜  kubectl get nodes
+NAME           STATUS   ROLES           AGE   VERSION
+controlplane   Ready    control-plane   25m   v1.26.0
+node01         Ready    <none>          10m   v1.26.0
+
+controlplane ~ ➜  
+```
