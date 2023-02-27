@@ -6,7 +6,7 @@ Stick to the given architecture. Use the same names and port numbers as given in
 
 Application Architecture              |  
 :-------------------------:|
-![ApplicationArchitecture](blob/main/images/application_failure.JPG)
+![ApplicationArchitecture](https://github.com/fred-juma/Certified-Kubernetes-Administrator/blob/main/images/application_failure.JPG)
 
 View all resources in the namespace
 
@@ -305,7 +305,7 @@ Stick to the given architecture. Use the same names and port numbers as given in
 
 Application Architecture              |  
 :-------------------------:|
-![ApplicationArchitecture](blob/main/images/application_failure4.JPG)
+![ApplicationArchitecture](https://github.com/fred-juma/Certified-Kubernetes-Administrator/blob/main/images/application_failure4.JPG)
 
 View all resources in the namespace
 
