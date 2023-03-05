@@ -6,15 +6,22 @@ This is a query language for parsing data  represented in json or yaml format
 Develop a JSON path query to extract the expected output from the Source Data.
 
 **Source Data**
+
+```json
+
 {
   "property1": "value1",
   "property2": "value2"
 }
+```
 
 **Expected value**
+
+```json
 [
   "value1"
 ]
+```
 
 **JSON Path Query:**  
 
@@ -27,6 +34,7 @@ Develop a JSON path query to extract the bus details from the Source Data.
 
 **Source Data:**
 
+```json
 {
   "car": {
     "color": "blue",
@@ -37,14 +45,14 @@ Develop a JSON path query to extract the bus details from the Source Data.
     "price": "$120,000"
   }
 }
+```
 
 
-{
-  "car": {
 
 
 **Expected Output:**
 
+```json
 [
   {
     "color": "white",
@@ -52,7 +60,9 @@ Develop a JSON path query to extract the bus details from the Source Data.
   }
 ]
 
-** JSON Path Query:**  
+```
+
+**JSON Path Query:**  
 ```bash
 $.bus
 ```
@@ -62,9 +72,11 @@ Develop a JSON path query to extract the price of the bus.
 
 **Expected Output:**
 
+```json
 [
   "$120,000"
 ]
+```
 
 **JSON Path Query:** 
 ```bash
@@ -76,6 +88,7 @@ Develop a JSON path query to extract the price of the car.
 
 **Source Data:**
 
+```json
 {
   "vehicles": {
     "car": {
@@ -88,12 +101,15 @@ Develop a JSON path query to extract the price of the car.
     }
   }
 }
+```
 
 **Expected Output:**
 
+```json
 [
   "$20,000"
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -105,6 +121,7 @@ Develop a JSON path query to extract data about the wheels of the car.
 
 **Source Data:**
 
+```json
 {
   "car": {
     "color": "blue",
@@ -129,9 +146,11 @@ Develop a JSON path query to extract data about the wheels of the car.
     ]
   }
 }
+```
 
 **Expected Output:**
 
+```json
 [
   [
     {
@@ -152,6 +171,7 @@ Develop a JSON path query to extract data about the wheels of the car.
     }
   ]
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -163,12 +183,14 @@ Develop a JSON path query to extract data about the third wheel of the car.
 
 **Expected Output:**
 
+```json
 [
   {
     "model": "KCMDD3435K",
     "location": "rear-right"
   }
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -180,9 +202,11 @@ Develop a JSON path query to extract the model of the third wheel of the car.
 
 **Expected Output:**
 
+```json
 [
   "KCMDD3435K"
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -194,6 +218,7 @@ Retreive all the payslip details of the employee.
 
 **Source Data:**
 
+```json
 {
   "employee": {
     "name": "john",
@@ -220,9 +245,11 @@ Retreive all the payslip details of the employee.
     ]
   }
 }
+```
 
 **Expected Output:**
 
+```json
 [
   [
     {
@@ -239,6 +266,7 @@ Retreive all the payslip details of the employee.
     }
   ]
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -250,12 +278,14 @@ Retreive the 3rd month's pay details of the employee.
 
 **Expected Output:**
 
+```json
 [
   {
     "month": "august",
     "amount": 3400
   }
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -267,9 +297,11 @@ Retreive the 3rd month's pay amount of the employee.
 
 **Expected Output:**
 
+```json
 [
   3400
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -506,6 +538,7 @@ Give this a shot. Try to find Malala in the below list of Noble Prize Winners.
 
 **Expected Output:**
 
+```json
 [
   {
     "id": "914",
@@ -515,6 +548,7 @@ Give this a shot. Try to find Malala in the below list of Noble Prize Winners.
     "share": "2"
   }
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -526,18 +560,21 @@ Retreive the first element in the list.
 
 **Source Data:**
 
+```json
 [
   "car",
   "bus",
   "truck",
   "bike"
 ]
-
+```
 **Expected Output:**
 
+```json
 [
   "car"
 ]
+```
 
 **JSON Path Query:**  
 ```bash
@@ -548,4 +585,7 @@ $[0]
 ##### 13 / 13 Lists
 Retreive the first and 4th element in the list.
 
+**JSON Path Query:**  
+```bash
 $[0,3]
+```
