@@ -281,6 +281,7 @@ Give this a shot. Try to find Malala in the below list of Noble Prize Winners.
 
 **Source Data:**
 
+```json
 {
   "prizes": [
     {
@@ -501,7 +502,7 @@ Give this a shot. Try to find Malala in the below list of Noble Prize Winners.
     }
   ]
 }
-
+```
 
 **Expected Output:**
 
