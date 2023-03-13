@@ -526,57 +526,42 @@ static pod configured under /etc/kubernetes/manifests ?
 Pod nginx-critical-node01 is up and running
 
 
-Create the static pod inside the */etc/kubernetes/manifests* directory
-
+Create the static pod manifest in the controlplane node
 
 ```bash
 
-
-controlplane ~  ➜ kubectl run nginx-critical --image=nginx -o yaml --dry-run=client > /etc/kubernetes/manifests/nginx-critical.yaml
+controlplane ~ ➜ kubectl run nginx-critical --image=nginx --restart=Always -o yaml --dry-run=client > nginx-critical.yaml
 ```
 
-Update the pod spec to include nodeName
+copy the pod definition into *node01* inside the static pod directory */etc/kubernetes/manifests*
 
 ```bash
-
-controlplane ~ ➜  vi /etc/kubernetes/manifests/nginx-critical.yaml
-
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    run: nginx-critical
-  name: nginx-critical
-spec:
-  nodeName: node01
-  containers:
-  - image: nginx
-    name: nginx-critical
-    ```
-
-Apply the pod manifest to create the pod object
-
-```bash
-
-controlplane ~ ➜  kubectl apply -f /etc/kubernetes/manifests/nginx-critical.yaml
-pod/nginx-critical created
+controlplane ~ ➜  scp nginx-critical.yaml node01:/etc/kubernetes/manifests
+nginx-critical.yaml                                         100%  259   363.3KB/s   00:00    
 ```
 
-Confirm the pod is created, and running on node01
+Confirm that the pod definition is inside the specified directory
 
 ```bash
-controlplane ~ ➜  kubectl get pod -o wide
-NAME                            READY   STATUS    RESTARTS   AGE     IP             NODE           NOMINATED NODE   READINESS GATES
-nginx-critical                  1/1     Running   0          30s     10.244.192.6   node01         <none>           <none>
-nginx-critical-controlplane     1/1     Running   0          79s     10.244.0.4     controlplane   <none>           <none>
-nginx-deploy-7dc9dd795f-7cf7c   1/1     Running   0          25m     10.244.192.4   node01         <none>           <none>
-nginx-resolver                  1/1     Running   0          5m18s   10.244.192.5   node01         <none>           <none>
-redis-storage                   1/1     Running   0          38m     10.244.192.1   node01         <none>           <none>
-super-user-pod                  1/1     Running   0          32m     10.244.192.2   node01         <none>           <none>
-use-pv                          1/1     Running   0          26m     10.244.192.3   node01         <none>           <none>
+controlplane ~ ➜  ssh node01 ls /etc/kubernetes/manifests
+nginx-critical.yaml
 
 controlplane ~ ➜  
 ```
+
+Confirm the static pod is created and is running
+
+```bash
+controlplane ~ ➜  kubectl get pod -o wide
+NAME                    READY   STATUS    RESTARTS   AGE     IP             NODE     NOMINATED NODE   READINESS GATES
+busybox                 1/1     Running   0          6m50s   10.244.192.2   node01   <none>           <none>
+nginx-critical-node01   1/1     Running   0          83s     10.244.192.3   node01   <none>           <none>
+nginx-resolver          1/1     Running   0          8m10s   10.244.192.1   node01   <none>           <none>
+
+controlplane ~ ➜  
+```
+
+
 
 #### Task 8
 
@@ -596,15 +581,90 @@ controlplane ~ ➜  kubectl run nginx-resolver --image=nginx
 pod/nginx-resolver created
 ```
 
-Expose pod as type *clusterIP*
+Expose pod as type *clusterIP* whichis the default service type and as such does not have to be specified
 
 ```bash
 
-controlplane ~ ➜ kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80
+controlplane ~ ➜  kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80
 service/nginx-resolver-service exposed
 
 controlplane ~ ➜  
 ```
+
+Create the busybox image
+
+```bash
+controlplane ~ ➜  kubectl run busybox --image=busybox:1.28 -- sleep 4800
+pod/busybox created
+```
+
+Confirm pod is running
+
+```bash
+controlplane ~ ➜  kubectl get pod
+NAME             READY   STATUS    RESTARTS   AGE
+busybox          1/1     Running   0          5s
+nginx-resolver   1/1     Running   0          82s
+```
+
+Perform lookup on the service, first by testing if it works
+
+```bash
+controlplane ~ ➜  kubectl exec busybox -- nslookup nginx-resolver-service.default.svc.cluster.local
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      nginx-resolver-service.default.svc.cluster.local
+Address 1: 10.99.98.240 nginx-resolver-service.default.svc.cluster.local
+```
+
+Then save the results in the specified file
+
+```bash
+controlplane ~ ➜  kubectl exec busybox -- nslookup nginx-resolver-service.default.svc.cluster.local > /root/CKA/nginx.svc
+
+controlplane ~ ➜  cat /root/CKA/nginx.svc
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      nginx-resolver-service.default.svc.cluster.local
+Address 1: 10.99.98.240 nginx-resolver-service.default.svc.cluster.local
+
+controlplane ~ ➜  
+```
+
+
+To resolve the pod, first check the pod IP Address
+
+```bash
+controlplane ~ ➜  kubectl get pod -o wide
+NAME             READY   STATUS    RESTARTS   AGE     IP             NODE     NOMINATED NODE   READINESS GATES
+busybox          1/1     Running   0          9m32s   10.244.192.2   node01   <none>           <none>
+nginx-resolver   1/1     Running   0          10m     10.244.192.1   node01   <none>           <none>
+
+controlplane ~ ➜  
+```
+
+Then creat the pod DNS name, which will be: *10-244-192-1.pod.default.cluster.local*
+
+Now, do the dns lookup of the pod dns name
+
+```bash
+controlplane ~ ➜  kubectl exec busybox -- nslookup 10-244-192-1.default.pod.cluster.localServer:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      10-244-192-1.default.pod.cluster.local
+Address 1: 10.244.192.1 10-244-192-1.nginx-resolver-service.default.svc.cluster.local
+```
+
+Save the output to the specified file
+
+```bash
+controlplane ~ ➜  kubectl exec busybox -- nslookup 10-244-192-1.default.pod.cluster.local > /root/CKA/nginx.pod
+```
+
+
+***The End***
 
 
 
