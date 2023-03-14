@@ -1,9 +1,21 @@
+
+#### Task 1
 Deploy a pod named nginx-pod using the nginx:alpine image.
 
 Once done, click on the Next Question button in the top right corner of this panel. You may navigate back and forth freely between all questions. Once done with all questions, click on End Exam. Your work will be validated at the end and score shown. Good Luck!
 
-ontrolplane ~ ➜  kubectl run nginx-pod --image=nginx:alpine
+
+Create the pod
+
+```bash
+controlplane ~ ➜  kubectl run nginx-pod --image=nginx:alpine
 pod/nginx-pod created
+```
+
+List cluster resources to show the created pod
+
+
+```bash
 
 controlplane ~ ➜  kubectl get all
 NAME            READY   STATUS    RESTARTS   AGE
@@ -13,14 +25,24 @@ NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   43m
 
 controlplane ~ ➜  
+```
+
+#### Task 2
 
 Deploy a messaging pod using the redis:alpine image with the labels set to tier=msg.
 
+Create pod with labels
+
+```bash
 controlplane ~ ➜ kubectl run messaging --image=redis:alpine --labels=tier=msg
 pod/messaging created
 
 controlplane ~ ➜  
+```
 
+Show pods with respective labels
+
+```bash
 
 controlplane ~ ➜  kubectl get pod --show-labels
 NAME        READY   STATUS    RESTARTS   AGE     LABELS
@@ -28,56 +50,70 @@ messaging   1/1     Running   0          2m45s   tier=msg
 nginx-pod   1/1     Running   0          5m49s   run=nginx-pod
 
 controlplane ~ ➜  
+```
+
+#### Task 3
 
 Create a namespace named apx-x9984574.
 
+```bash
 controlplane ~ ➜  kubectl create namespace apx-x9984574
 namespace/apx-x9984574 created
 
 controlplane ~ ➜  
-
+```
 
 Get the list of nodes in JSON format and store it in a file at /opt/outputs/nodes-z3444kd9.json
 
-
+```bash
 controlplane ~ ➜  kubectl get nodes -o json > /opt/outputs/nodes-z3444kd9.json
 
 controlplane ~ ➜  ls /opt/outputs/
 nodes-z3444kd9.json
 
 controlplane ~ ➜  
+```
 
 Create a service messaging-service to expose the messaging application within the cluster on port 6379.
 
-Use imperative commands.
 
 
+```bash
 
 controlplane ~ ➜  kubectl expose pod messaging --name=messaging-service --port=6379
 service/messaging-service exposed
 
 controlplane ~ ➜  
+```
 
+Get list of services
 
+```bash
 controlplane ~ ➜  kubectl get service
 NAME                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 kubernetes          ClusterIP   10.96.0.1       <none>        443/TCP    58m
 messaging-service   ClusterIP   10.96.154.241   <none>        6379/TCP   17s
 
 controlplane ~ ➜  
+```
 
-
+#### Task 4
 
 Create a deployment named hr-web-app using the image kodekloud/webapp-color with 2 replicas.
 
 
+Create the deployment
+
+```bash
 controlplane ~ ➜  kubectl create deployment hr-web-app --image=kodekloud/webapp-color --replicas=2
 deployment.apps/hr-web-app created
 
 controlplane ~ ➜  
+```
 
+View all created objects
 
-
+```bash
 controlplane ~ ➜  kubectl get all
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/hr-web-app-5d67dbb499-495mt   1/1     Running   0          12s
@@ -96,12 +132,16 @@ NAME                                    DESIRED   CURRENT   READY   AGE
 replicaset.apps/hr-web-app-5d67dbb499   2         2         2       12s
 
 controlplane ~ ➜  
+```
 
-
+#### Task 5
 
 Create a static pod named static-busybox on the controlplane node that uses the busybox image and the command sleep 1000.
 
 
+View the kubelet configuration
+
+```bash
 
 controlplane ~ ➜  ps -aux | grep kubelet
 root        3278  0.0  0.1 1125288 320736 ?      Ssl  03:54   2:55 kube-apiserver --advertise-address=192.14.124.3 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/etc/kubernetes/pki/ca.crt --enable-admission-plugins=NodeRestriction --enable-bootstrap-token-auth=true --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/etc/kubernetes/pki/sa.pub --service-account-signing-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
@@ -109,18 +149,32 @@ root        4241  0.0  0.0 3940168 112884 ?      Ssl  03:54   1:34 /usr/bin/kube
 root       19186  0.0  0.0   6744   656 pts/0    S+   05:01   0:00 grep --color=auto kubelet
 
 controlplane ~ ➜  
+```
 
---config=/var/lib/kubelet/config.yaml
+The config file location is:
+
+*--config=/var/lib/kubelet/config.yaml*
 
 
+Check the location / path of static pods = */etc/kubernetes/manifests*
+
+```bash
 controlplane ~ ➜  cat /var/lib/kubelet/config.yaml | grep -i staticpodpath
 staticPodPath: /etc/kubernetes/manifests
 
 controlplane ~ ➜  
+```
 
+Create the static pod in the path */etc/kubernetes/manifests*
 
+```bash
 controlplane ~ ➜  kubectl run static-busybox --image=busybox -o yaml --dry-run=client --command -- sleep 1000 > /etc/kubernetes/manifests/static-busyibox.yaml  
+```
 
+Confirm the pod manifest is in the static pod path
+
+
+```bash
 controlplane /etc/kubernetes/manifests ➜  ls -l
 total 20
 -rw------- 1 root root 2382 Mar  9 03:54 etcd.yaml
@@ -130,11 +184,12 @@ total 20
 -rw-r--r-- 1 root root   27 Mar  9 05:09 static-busybox.yaml
 
 controlplane /etc/kubernetes/manifests ➜  
+```
+
+Check static pods status, the *static pod* will be scheduled and running
 
 
-controlplane /etc/kubernetes/manifests ➜  kubectl apply -f static-busybox.yaml pod/static-busybox created
-
-controlplane /etc/kubernetes/manifests ➜  
+```bash
 
 controlplane ~ ➜  crictl ps
 CONTAINER           IMAGE               CREATED             STATE               NAME                      ATTEMPT             POD ID              POD
@@ -155,32 +210,46 @@ c93d8cec42c52       dafd8ad70b156       About an hour ago   Running             
 fabc6a060e421       5d7c5dfd3ba18       About an hour ago   Running             kube-controller-manager   0                   4eb9ce47bffa4       kube-controller-manager-controlplane
 
 controlplane ~ ➜  
+```
 
+#### Task 6
 
 Create a POD in the finance namespace named temp-bus with the image redis:alpine
 
-
+```bash
 controlplane /etc/kubernetes/manifests ➜  kubectl run temp-bus -n finance --image=redis:alpine
 pod/temp-bus created
+```
 
+Get the pod status
+
+```bash
 controlplane /etc/kubernetes/manifests ➜  kubectl get pod -n finance
 NAME       READY   STATUS    RESTARTS   AGE
 temp-bus   1/1     Running   0          14s
 
 controlplane /etc/kubernetes/manifests ➜  
+```
 
-
+#### Task 7
 
 A new application orange is deployed. There is something wrong with it. Identify and fix the issue.
 
 
+Get pod status
+
+```bash
 controlplane /etc/kubernetes/manifests ➜  kubectl get pod orange
 NAME     READY   STATUS       RESTARTS      AGE
 orange   0/1     Init:Error   2 (30s ago)   34s
 
 controlplane /etc/kubernetes/manifests ➜  
+```
 
 
+Desscribe the pod
+
+```bash
 controlplane /etc/kubernetes/manifests ➜  kubectl describe pod orange 
 
 Events:
@@ -196,23 +265,35 @@ Events:
   Normal   Pulled     14s                kubelet            Successfully pulled image "busybox" in 298.97411ms (298.991355ms including waiting)
   Warning  BackOff    13s (x5 over 59s)  kubelet            Back-off restarting failed container init-myservice in pod orange_default(f251b516-148e-4d72-b38e-76c30ff65863)
 
+```
 
+Once correction is done, recreate pod and check status
+
+```bash
 controlplane ~ ➜  kubectl get pod orange
 NAME     READY   STATUS    RESTARTS   AGE
 orange   1/1     Running   0          26s
 
 controlplane ~ ➜  
+```
 
-
+#### Task 8
 
 Expose the hr-web-app as service hr-web-app-service application on port 30082 on the nodes on the cluster.
 
 The web application listens on port 8080
 
+
+Creaete service definition
+
+```bash
 controlplane ~ ➜  kubectl expose deployment hr-web-app --name=hr-web-app-service --type=NodePort --port=8080 -o yaml --dry-run=client > hr-web-app-service.yaml
 
 controlplane ~ ➜  
+```
+Edit the service definition by specifying *nodePort: 30082*
 
+```bash
 apiVersion: v1
 kind: Service
 metadata:
@@ -228,13 +309,21 @@ spec:
   selector:
     app: hr-web-app
   type: NodePort
+```
 
+Apply the service manifest
+
+```bash
 
 controlplane ~ ➜  kubectl apply -f hr-web-app-service.yaml 
 service/hr-web-app-service created
 
 controlplane ~ ➜  
+```
 
+Confirm the service is created
+
+```bash
 
 controlplane ~ ➜  kubectl get service
 NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
@@ -243,8 +332,9 @@ kubernetes           ClusterIP   10.96.0.1       <none>        443/TCP          
 messaging-service    ClusterIP   10.97.143.14    <none>        6379/TCP         14m
 
 controlplane ~ ➜  
+```
 
-
+#### Task 9
 
 Use JSON PATH query to retrieve the osImages of all the nodes and store it in a file /opt/outputs/nodes_os_x43kj56.txt.
 
@@ -550,16 +640,29 @@ controlplane ~ ➜  kubectl get node -o json
 controlplane ~ ➜  
 ```
 
+Run the json query to retrieve the OS Image
+
+```bash
 controlplane ~ ➜  kubectl get node -o=jsonpath='{$.items[::].status.nodeInfo.osImage}'
 Ubuntu 20.04.5 LTS
 controlplane ~ ➜ 
+```
 
+Run the same query and save the output to the specified file
+
+```bash
 controlplane ~ ➜  kubectl get node -o=jsonpath='{$.items[::].status.nodeInfo.osImage}' > /opt/outputs/nodes_os_x43kj56.txt
+```
 
+Verify the content of the saved file
+
+```bash
 controlplane ~ ➜  cat /opt/outputs/nodes_os_x43kj56.txt
 Ubuntu 20.04.5 LTS
 controlplane ~ ➜  
+```
 
+#### Task 10
 
 Create a Persistent Volume with the given specification.
 
@@ -569,7 +672,9 @@ Create a Persistent Volume with the given specification.
 - Host Path: /pv/data-analytics
 
 
+Create the persistentvolume definition
 
+```bash
 controlplane ~ ➜  vi pv-analytics.yaml  
 
 apiVersion: v1
@@ -584,17 +689,28 @@ spec:
     - ReadWriteMany
   hostPath:
     path: /pv/data-analytics
+```
 
+Apply the PV manifest
 
+```bash
 
 controlplane ~ ➜  kubectl apply -f pv-analytics.yaml 
 persistentvolume/pv-analytics created
 
 controlplane ~ ➜  
+```
 
+Confirm the PV is created
+
+```bash
 
 controlplane ~ ➜  kubectl get persistentvolume
 NAME           CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
 pv-analytics   100Mi      RWX            Retain           Available           manual                  18s
 
 controlplane ~ ➜  
+```
+
+
+***The End***
