@@ -8,7 +8,10 @@ What Is Kubernetes? - An open-source software for automating deployment, scaling
 
 Kubernetes is the Helmsman / pilot of a ship of containers.
 
-Communication is entirely API call-driven, which allows for flexibility. Cluster configuration information is stored in a JSON format inside of etcd, but is most often written in YAML by the community. Kubernetes agents convert the YAML to JSON prior to persistence to the database.
+Kubernetes uses a RESTful API-driven architecture, accepting standard HTTP verbs. Communication is entirely API call-driven, which allows for flexibility. Cluster configuration information is stored in a JSON format inside of etcd, but is most often written in YAML by the community. Kubernetes agents convert the YAML to JSON prior to persistence to the database.
+
+
+
 
 
 Kubernetes Architecture              |  
